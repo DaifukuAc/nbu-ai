@@ -82,7 +82,7 @@ const createBatchFile = async () => {
     const files = fs.readdirSync(directoryPath);
     let fileIndex = 0;
     let currentFileSize = 0;
-    let outputFilePath = path.join('./', `batch_requests_${fileIndex}.jsonl`);
+    let outputFilePath = path.join('./', `batch_requests_${fileIndex}_glm-4-flash.jsonl`);
     let fileStream = fs.createWriteStream(outputFilePath, { flags: 'w' });
 
     files.forEach(file => {
