@@ -1,0 +1,5 @@
+信息爬虫/node_modules/
+**/.env
+信息爬虫/dist/
+*.jsonl
+信息爬虫/nbu.edu.cn/
