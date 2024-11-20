@@ -76,13 +76,24 @@ export async function getAi( webInfo: string) {
 
 
 const createBatchFile = async () => {
-  const directoryPath = "./dist/info"; // Specify directory path
+  const directoryPath = "./nbu.edu.cn/info"; // Specify directory path
   const MAX_FILE_SIZE = 99 * 1024 * 1024; // 99MB
+  const modelName = 'glm-4-flash'; // Define the model name
+
+  // Determine the output directory
+  const parentDirectory = path.resolve(directoryPath, '..');
+  const outputDirectory = path.join(parentDirectory, 'jsonl');
+
+  // Ensure the output directory exists
+  if (!fs.existsSync(outputDirectory)) {
+    fs.mkdirSync(outputDirectory, { recursive: true });
+  }
+
   try {
     const files = fs.readdirSync(directoryPath);
     let fileIndex = 0;
     let currentFileSize = 0;
-    let outputFilePath = path.join('./', `batch_requests_${fileIndex}_glm-4-flash.jsonl`);
+    let outputFilePath = path.join(outputDirectory, `batch_requests_${fileIndex}_${modelName}.jsonl`);
     let fileStream = fs.createWriteStream(outputFilePath, { flags: 'w' });
 
     files.forEach(file => {
@@ -107,7 +118,7 @@ const createBatchFile = async () => {
 
           // Increment file index and create a new file
           fileIndex++;
-          outputFilePath = path.join('./', `batch_requests_${fileIndex}.jsonl`);
+          outputFilePath = path.join(outputDirectory, `batch_requests_${fileIndex}_${modelName}.jsonl`);
           fileStream = fs.createWriteStream(outputFilePath, { flags: 'w' });
           currentFileSize = 0;
         }
@@ -121,7 +132,7 @@ const createBatchFile = async () => {
 
     // Close the last file stream
     fileStream.end();
-    console.log(`All batch requests have been written to: batch_requests_*.jsonl`);
+    console.log(`All batch requests have been written to: ${outputDirectory}/batch_requests_*_${modelName}.jsonl`);
 
   } catch (error) {
     console.error("Error processing files:", error);

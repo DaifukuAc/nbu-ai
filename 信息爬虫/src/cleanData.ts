@@ -38,6 +38,7 @@ function processJsonFile(filePath: string): void {
 function traverseDirectory(dir: string): void {
     const files = fs.readdirSync(dir);
 
+    console.time('forTime')
     for (const file of files) {
         const fullPath = path.join(dir, file);
         const stat = fs.statSync(fullPath);
@@ -48,10 +49,13 @@ function traverseDirectory(dir: string): void {
             processJsonFile(fullPath);
         }
     }
+    console.timeEnd('forTime')
+    //无日志输出 44.752s
+    //有日志输出 54.806s
 }
 
 // 指定要遍历的目录
-const targetDirectory = './dist/info';
+const targetDirectory = './nbu.edu.cn/info';
 //traverseDirectory(targetDirectory);
 
 
@@ -63,6 +67,8 @@ function countJsonFilesAndContentLength(dir: string): { totalJsonFiles: number, 
     function traverseDirectory(currentPath: string) {
         const files = fs.readdirSync(currentPath);
 
+
+        console.time('forTime')
         for (const file of files) {
             const fullPath = path.join(currentPath, file);
             const stats = fs.statSync(fullPath);
@@ -86,6 +92,8 @@ function countJsonFilesAndContentLength(dir: string): { totalJsonFiles: number, 
                 }
             }
         }
+        console.timeEnd('forTime')
+
     }
 
     traverseDirectory(dir);
@@ -93,7 +101,9 @@ function countJsonFilesAndContentLength(dir: string): { totalJsonFiles: number, 
 }
 
 // 使用示例
-
+const test=()=>{
 const result = countJsonFilesAndContentLength(targetDirectory);
 console.log(`总的 JSON 文件数量: ${result.totalJsonFiles}`);
-console.log(`所有 JSON 文件中 content 字段的总字符数: ${result.totalContentLength}`);
+console.log(`所有 JSON 文件中 存取的总字符数: ${result.totalContentLength}`);
+}
+test();

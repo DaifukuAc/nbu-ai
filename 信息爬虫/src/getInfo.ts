@@ -5,7 +5,8 @@ import dotenv from 'dotenv';
 import axios from 'axios'; // Make sure to import axios
 dotenv.config();
 
-const startUrl = process.env.startUrl!;
+// 获取起始URL和域名
+const startUrl = `https://${process.env.domain!}`
 const domain = process.env.domain!;
 
 // Define the output directory
@@ -165,3 +166,6 @@ async function main() {
 }
 
 main().catch(console.error);
+
+
+//node --max-old-space-size=4096 your_script.js
